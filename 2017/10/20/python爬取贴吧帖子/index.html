@@ -1,101 +1,174 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>python爬取贴吧帖子 | 唐龙隆个人博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、介绍 我们常遇到一些很长的贴吧连载帖子想存到本地再看此文就是运用python爬取指定百度贴吧的帖子并存到本地满足需求环境:python2.7目标网页:【长篇连载】剑网3的正史和野史——从头开始讲剧情故事源码存放:源码github本文参考:静觅博客python实战系列   二、页面的抓取 目标网页网址为https://tieba.baidu.com/p/2196794546满足可以选择是否只看楼">
-<meta name="keywords" content="技术分享">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python爬取贴吧帖子">
-<meta property="og:url" content="https://gtntangll.github.io/2017/10/20/python爬取贴吧帖子/index.html">
-<meta property="og:site_name" content="唐龙隆个人博客">
-<meta property="og:description" content="一、介绍 我们常遇到一些很长的贴吧连载帖子想存到本地再看此文就是运用python爬取指定百度贴吧的帖子并存到本地满足需求环境:python2.7目标网页:【长篇连载】剑网3的正史和野史——从头开始讲剧情故事源码存放:源码github本文参考:静觅博客python实战系列   二、页面的抓取 目标网页网址为https://tieba.baidu.com/p/2196794546满足可以选择是否只看楼">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-4276c194fc060ba0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-a60efb75075a8526.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-c117103345a21c02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-9e676b34298adde7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-b5266d9072abe99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-b634bf06d3e62f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-6e4d5baf2831bfa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2660278-4d97bffcd6ef45ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-21T09:51:03.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python爬取贴吧帖子">
-<meta name="twitter:description" content="一、介绍 我们常遇到一些很长的贴吧连载帖子想存到本地再看此文就是运用python爬取指定百度贴吧的帖子并存到本地满足需求环境:python2.7目标网页:【长篇连载】剑网3的正史和野史——从头开始讲剧情故事源码存放:源码github本文参考:静觅博客python实战系列   二、页面的抓取 目标网页网址为https://tieba.baidu.com/p/2196794546满足可以选择是否只看楼">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2660278-4276c194fc060ba0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-  
-    <link rel="alternate" href="/atom.xml" title="唐龙隆个人博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
+<html lang="en">
 
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="唐龙隆个人博客" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        python爬取贴吧帖子｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://gtntangll.github.io/2017/10/20/python爬取贴吧帖子/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">唐龙隆个人博客</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://gtntangll.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-python爬取贴吧帖子" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/20/python爬取贴吧帖子/" class="article-date">
-  <time datetime="2017-10-20T07:03:39.000Z" itemprop="datePublished">2017-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      python爬取贴吧帖子
-    </h1>
-  
+<style>
 
-      </header>
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    唐龙隆个人博客
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><blockquote>
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>python爬取贴吧帖子</h1>
+                    
+                    <span class="meta">
+                         作者 唐龙隆
+                        <span>
+                          日期 2017-10-20
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#技术分享"
+                           title="技术分享">技术分享</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            python爬取贴吧帖子
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><blockquote>
 <p>我们常遇到一些很长的贴吧连载帖子想存到本地再看<br>此文就是运用python爬取指定百度贴吧的帖子并存到本地满足需求<br>环境:python2.7<br>目标网页:<a href="https://tieba.baidu.com/p/2196794546" target="_blank" rel="external">【长篇连载】剑网3的正史和野史——从头开始讲剧情故事</a><br>源码存放:<a href="https://github.com/gtntangll/python-webcrawler/tree/master/%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E5%B8%96%E5%AD%90" target="_blank" rel="external">源码github</a><br>本文参考:<a href="http://cuiqingcai.com/" target="_blank" rel="external">静觅</a>博客python实战系列</p>
 </blockquote>
 <hr>
@@ -126,103 +199,165 @@
 <p>好我们来运行一下试试:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-b5266d9072abe99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>到这里输入目标网页的代号:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-b634bf06d3e62f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>整个运行过程:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-6e4d5baf2831bfa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>好,这时候该目录下多了这个txt文件,打开看看<br><img src="http://upload-images.jianshu.io/upload_images/2660278-4d97bffcd6ef45ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>文本已经成功存到本地,到这里就成功了。</p>
 </h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://gtntangll.github.io/2017/10/20/python爬取贴吧帖子/" data-id="cj9159l9y00005xi3um4k3imh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术分享/">技术分享</a></li></ul>
+                <hr>
+                
 
-    </footer>
-  </div>
-  
-    
-  
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、介绍"><span class="toc-text">一、介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、页面的抓取"><span class="toc-text">二、页面的抓取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、提取出想要的信息"><span class="toc-text">三、提取出想要的信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-text">里的文本则正则表达式为:1<h3 class="core_title_txt.*?>(.*?)</h3>
+接下来我们就可以写一个提取标题的方法:123456789def getTitle(self,title):                page = self.getPage(1)        pattern = re.compile('<h3 class="core_title_txt.*?>(.*?)</h3>',re.S)        result = re.search(pattern,page)        if result:            return result.group(1).strip()        else:            return None
+同理找到帖子页数的代码段,可得出提取页数的正则:1<li class="l_reply_num".*?</span>.*?<span.*?>(.*?)</span>
+提取页数的方法:123456789def getPageNum(self,page):                page = self.getPage(1)        pattern = re.compile('<li class="l_reply_num".*?</span>.*?<span.*?>(.*?)</span>',re.S)        result = re.search(pattern,page)        if result:            return result.group(1).strip()        else:            return None
+接下来是我们主要目的,提取正文,正则为:1<div id="post_content_.*?>(.*?)</div>
+这个正则提取出来的只是div里面的文本内容,它还会包括了图片标签，换行符，段落符等的标签。所以我们还需处理一下。这时候添加一个类利用正则将这些标签都替换掉12345678910111213141516171819class Tool:    removeImg = re.compile('<img.*?>| {7}|')    removeAddr = re.compile('<a.*?>|</a>')    replaceLine = re.compile('<tr>|<div>|</div>|</p>')    replaceTD = re.compile('<td>')    replacePara = re.compile('<p.*?>')    replaceBR = re.compile('<p.*?>')    replaceBR = re.compile('<br><br>|<br>')    removeExtraTag = re.compile('<.*?')    def replace(self,x):        x = re.sub(self.removeImg,"",x)        x = re.sub(self.removeAddr,"",x)        x = re.sub(self.replaceLine,"\n",x)        x = re.sub(self.replaceTD,"\t",x)        x = re.sub(self.replacePara,"\n     ",x)        x = re.sub(self.replaceBR,"\n",x)        x = re.sub(self.removeExtraTag,"",x)                return x.strip()
+初始化类后,我们可以写提取正文的方法:12345678910def getContent(self,page):                pattern = re.compile('<div id="post_content_.*?>(.*?)</div>',re.S)        items = re.findall(pattern,page)                contents = []        for item in items:            content = "\n" + self.tool.replace(item) + '\n'            contents.append(content.encode('utf-8'))        return contents
+四、写入文件,保存为txt1234567891011def setFileTitle(self,title):                if title is not None:            self.file = open(title + ".txt","w+")            else:            self.file = open(self.defaultTitle + ".txt","w+")            def writeData(self,contents):                for item in contents:            self.file.write(item)
+五、完善代码有了以上的方法作为基础，我们来写运行的方法:123456789101112131415161718192021def start(self):        indexPage = self.getPage(1)        pageNum = self.getPageNum(indexPage)        title = self.getTitle(indexPage)        self.setFileTitle(title)        if pageNum == None:            print "URL已失效,请重试"            return None        try:            print "该帖子共有" + str(pageNum) + "页"            for i in range(1,int(pageNum)+1):                print "正在写入第" + str(i) + "页数据"                page = self.getPage(i)                contents = self.getContent(page)                self.writeData(contents)                except IOError,e:            print "写入异常,原因" + e.message        finally:            print "写入任务完成"
+此时完成的代码:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115# -*- coding:utf-8 -*-import urllibimport urllib2import reclass Tool:    removeImg = re.compile('<img.*?>| {7}|')    removeAddr = re.compile('<a.*?>|</a>')    replaceLine = re.compile('<tr>|<div>|</div>|</p>')    replaceTD = re.compile('<td>')    replacePara = re.compile('<p.*?>')    replaceBR = re.compile('<p.*?>')    replaceBR = re.compile('<br><br>|<br>')    removeExtraTag = re.compile('<.*?')    def replace(self,x):        x = re.sub(self.removeImg,"",x)        x = re.sub(self.removeAddr,"",x)        x = re.sub(self.replaceLine,"\n",x)        x = re.sub(self.replaceTD,"\t",x)        x = re.sub(self.replacePara,"\n     ",x)        x = re.sub(self.replaceBR,"\n",x)        x = re.sub(self.removeExtraTag,"",x)                return x.strip()class DEMO:        def __init__(self,baseUrl,seeLZ):                self.baseURL = baseUrl        self.seeLZ = '?see_lz=' +str(seeLZ)        self.tool = Tool()    def getPage(self,pageNum):                try:            url = self.baseURL+self.seeLZ + '&pn=' + str(pageNum)            request = urllib2.Request(url)            response = urllib2.urlopen(request)            return response.read().decode('utf-8')        except urllib2.URLError, e:            if hasattr(e,"reson"):                print u"链接失败,原因:",e.reason                return None    def getTitle(self,title):                page = self.getPage(1)        pattern = re.compile('<h3 class="core_title_txt.*?>(.*?)</h3>',re.S)        result = re.search(pattern,page)        if result:            return result.group(1).strip()        else:            return None    def getPageNum(self,page):                page = self.getPage(1)        pattern = re.compile('<li class="l_reply_num".*?</span>.*?<span.*?>(.*?)</span>',re.S)        result = re.search(pattern,page)        if result:            return result.group(1).strip()        else:            return None    def getContent(self,page):                pattern = re.compile('<div id="post_content_.*?>(.*?)</div>',re.S)        items = re.findall(pattern,page)                contents = []        for item in items:            content = "\n" + self.tool.replace(item) + '\n'            contents.append(content.encode('utf-8'))        return contents    def setFileTitle(self,title):                if title is not None:            self.file = open(title + ".txt","w+")            else:            self.file = open(self.defaultTitle + ".txt","w+")            def writeData(self,contents):                for item in contents:            self.file.write(item)     def start(self):        indexPage = self.getPage(1)        pageNum = self.getPageNum(indexPage)        title = self.getTitle(indexPage)        self.setFileTitle(title)        if pageNum == None:            print "URL已失效,请重试"            return None        try:            print "该帖子共有" + str(pageNum) + "页"            for i in range(1,int(pageNum)+1):                print "正在写入第" + str(i) + "页数据"                page = self.getPage(i)                contents = self.getContent(page)                self.writeData(contents)                except IOError,e:            print "写入异常,原因" + e.message        finally:            print "写入任务完成"print u"请输入帖子代号"baseURL = 'http://tieba.baidu.com/p/' + str(raw_input(u'http://tieba.baidu.com/p/'))seeLZ = raw_input("是否只获取楼主发言,是输入1,否输入0\n")demo = DEMO(baseURL,seeLZ)demo.start()
+好我们来运行一下试试:到这里输入目标网页的代号:整个运行过程:好,这时候该目录下多了这个txt文件,打开看看
+文本已经成功存到本地,到这里就成功了。
+</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#四、写入文件-保存为txt"><span class="toc-text">四、写入文件,保存为txt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五、完善代码"><span class="toc-text">五、完善代码</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
 </article>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术分享/">技术分享</a></li></ul>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 唐龙隆个人博客 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
     </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/技术分享/" style="font-size: 10px;">技术分享</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/10/20/python爬取贴吧帖子/">python爬取贴吧帖子</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 唐龙隆<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://gtntangll.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<!-- Baidu Tongji -->
 
 
-<script src="/js/script.js"></script>
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
 
-  </div>
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
 </body>
+
 </html>
