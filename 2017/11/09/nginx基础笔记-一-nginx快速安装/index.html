@@ -172,14 +172,17 @@
 <p>开此nginx系列文章从入门到实践,为以教促学,让自己系统地学习掌握nginx的配置和搭建高可用架构。<br>系统环境:centos7.2</p>
 </blockquote>
 <h4 id="二、nginx快速安装"><a href="#二、nginx快速安装" class="headerlink" title="二、nginx快速安装"></a>二、nginx快速安装</h4><blockquote>
-<p>访问nginx官网:nginx.org 点击download后选择最底下 stable version(稳定版本)的链接找到这里:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-0174a81150a15f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>在系统新建nginx.repo并将此官网的yum源拷贝进去<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">vim /etc/yum.repos.d/nginx.repo</div></pre></td></tr></table></figure></p>
+<p>访问nginx官网:nginx.org 点击download后选择最底下 stable version(稳定版本)的链接找到这里:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-0174a81150a15f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>在系统新建nginx.repo并将此官网的yum源拷贝进去<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">vim /etc/yum.repos.d/nginx.repo</div></pre></td></tr></table></figure></p>
+<p>接着修改OS和OSRELEASE，我的环境为centos7.2系统故我修改如下<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">[nginx]</div><div class="line">name=nginx repo</div><div class="line">baseurl=http://nginx.org/packages/mainline/centos/<span class="number">7</span>/$basearch/</div><div class="line">gpgcheck=<span class="number">0</span></div><div class="line">enabled=<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>保存后测试<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">yum list |grep nginx</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2660278-38a62ef92a9decc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>出现该列表则为成功添加<br>接下来便可直接使用<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">yum install nginx</div></pre></td></tr></table></figure></p>
+<p>来安装nginx<br>安装完毕后测试:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">nginx -v</div></pre></td></tr></table></figure></p>
+<p>打印出nginx版本则为安装成功</p>
 </blockquote>
-<p>接着修改OS和OSRELEASE，我的环境为centos7.2系统故我修改如下<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">[nginx]</div><div class="line">name=nginx repo</div><div class="line">baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/</div><div class="line">gpgcheck=0</div><div class="line">enabled=1</div></pre></td></tr></table></figure></p>
-<p>保存后测试<br>&gt;<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">yum list |grep nginx</div></pre></td></tr></table></figure></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2660278-38a62ef92a9decc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>出现该列表则为成功添加<br>接下来便可直接使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">yum install nginx</div><div class="line">``` </div><div class="line"></div><div class="line">来安装nginx</div><div class="line">安装完毕后测试</div></pre></td></tr></table></figure></p>
-<p>nginx -v<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">打印出nginx版本则为安装成功</div><div class="line"></div><div class="line">#### 三、启动nginx</div><div class="line">&gt; 安装完毕后我们来启动nginx:</div></pre></td></tr></table></figure></p>
-<p>sudo systemctl start nginx.service<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">此时便可通过域名或者ip访问web页面来预览nginx的默认页面:</div><div class="line">![](http://upload-images.jianshu.io/upload_images/2660278-01ea50292c2fc8c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line">设置开机启动nginx:</div></pre></td></tr></table></figure></p>
-<p>sudo systemctl enable nginx.service<br>```</p>
+<h4 id="三、启动nginx"><a href="#三、启动nginx" class="headerlink" title="三、启动nginx"></a>三、启动nginx</h4><blockquote>
+<p>安装完毕后我们来启动nginx:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">sudo systemctl start nginx.service</div></pre></td></tr></table></figure></p>
+<p>此时便可通过域名或者ip访问web页面来预览nginx的默认页面:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-01ea50292c2fc8c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>设置开机启动nginx:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">sudo systemctl enable nginx.service</div></pre></td></tr></table></figure></p>
+</blockquote>
 <p>到此便是安装完成</p>
 
                 <hr>
@@ -206,7 +209,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、介绍"><span class="toc-text">一、介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、nginx快速安装"><span class="toc-text">二、nginx快速安装</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、介绍"><span class="toc-text">一、介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、nginx快速安装"><span class="toc-text">二、nginx快速安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、启动nginx"><span class="toc-text">三、启动nginx</span></a></li></ol>
                 </div>
             </div>
         </div>
