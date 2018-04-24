@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        nginx的目录和配置语法｜唐龙隆个人博客
+        Nginx开启gzip压缩演示｜唐龙隆个人博客
         
     </title>
 
-    <link rel="canonical" href="https://gtntangll.github.io/2017/11/10/nginx的目录和配置语法/">
+    <link rel="canonical" href="https://gtntangll.github.io/2018/04/24/Nginx开启gzip压缩演示/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,12 +137,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>nginx的目录和配置语法</h1>
+                    <h1>Nginx开启gzip压缩演示</h1>
                     
                     <span class="meta">
                          作者 tangll
                         <span>
-                          日期 2017-11-10
+                          日期 2018-04-24
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -160,7 +160,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            nginx的目录和配置语法
+            Nginx开启gzip压缩演示
         </span>
     </div>
 </header>
@@ -171,124 +171,26 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h4 id="一、nginx的各种安装目录"><a href="#一、nginx的各种安装目录" class="headerlink" title="一、nginx的各种安装目录"></a>一、nginx的各种安装目录</h4><table>
-<thead>
-<tr>
-<th>路径</th>
-<th style="text-align:right">类型</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>/etc/logrotate.d/nginx</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">nginx日志轮转用于logrotate服务的日志切割</td>
-</tr>
-<tr>
-<td>/etc/nginx/nginx.conf<br>/etc/nginx/conf.d/default.conf</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">nginx主配置文件</td>
-</tr>
-<tr>
-<td>/etc/nginx/fastcgi_params<br>/etc/nginx/uwsgi_params<br>/etc/nginx/scgi_params</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">cgi配置相关<br>fastcgi配置</td>
-</tr>
-<tr>
-<td>/etc/nginx/koi-utf<br>/etc/nginx/win-utf<br>/etc/nginx/koi-win</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">编码转换映射转化文件</td>
-</tr>
-<tr>
-<td>/etc/nginx/mime.types</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">设置http协议的Content-Type与扩展名对应关系  <br>处理一些识别不了的扩展名的时候需要用到</td>
-</tr>
-<tr>
-<td>/usr/lib/systemd/system/nginx.service<br>/usr/lib/systemd/system/nginx-debug.service<br>/etc/sysconfig/nginx<br>/etc/sysconfig/nginx-debug</td>
-<td style="text-align:right">配置文件</td>
-<td style="text-align:center">用于配置出系统守护进程管理器管理方式</td>
-</tr>
-<tr>
-<td>/usr/sbin/nginx<br>/usr/sbin/nginx-debug</td>
-<td style="text-align:right">命令</td>
-<td style="text-align:center">nginx服务终端命令</td>
-</tr>
-<tr>
-<td>/usr/share/doc/nginx-1.12.2/COPYRIGHT<br>/usr/share/man/man8/nginx.8.gz</td>
-<td style="text-align:right">文件、目录</td>
-<td style="text-align:center">nginx的手册和帮助文件</td>
-</tr>
-<tr>
-<td>/var/cache/nginx/</td>
-<td style="text-align:right">目录</td>
-<td style="text-align:center">nginx的缓存目录</td>
-</tr>
-<tr>
-<td>/var/log/nginx/</td>
-<td style="text-align:right">目录</td>
-<td style="text-align:center">nginx的日志目录</td>
-</tr>
-</tbody>
-</table>
-<h4 id="二、nginx的编译配置参数"><a href="#二、nginx的编译配置参数" class="headerlink" title="二、nginx的编译配置参数"></a>二、nginx的编译配置参数</h4><p>命令<code>nginx -V</code>输出的就是nginx编译时候用到的参数</p>
-<table>
-<thead>
-<tr>
-<th>编译选项</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>–prefix=/etc/nginx<br>–sbin-path=/usr/sbin/nginx<br>–modules-path=/usr/lib64/nginx/modules<br>–conf-path=/etc/nginx/nginx.conf<br>–error-log-path=/var/log/nginx/error.log<br>–http-log-path=/var/log/nginx/access.log<br>–pid-path=/var/run/nginx/pid<br>–lock-path=/var/run/nginx.lock</td>
-<td style="text-align:center">安装目的目录或路径</td>
-</tr>
-<tr>
-<td>–httpd-client-body-temp-path=/var/cache/nginx/client_temp<br>–httpd-proxy-temp-path=/var/cache/nginx/proxy_temp<br>–http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp<br>–http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp<br>–http-scgi-temp-path=/var/chache/nginx/scgi_temp</td>
-<td style="text-align:center">执行对应模块时，Nginx所保留的临时性文件</td>
-</tr>
-<tr>
-<td>–user=nginx<br>–group=nginx</td>
-<td style="text-align:center">设定Nginx进程启动的用户和组用户</td>
-</tr>
-<tr>
-<td>–with-cc-opt=parameters</td>
-<td style="text-align:center">设置额外的参数将被添加到CFLAGS变量</td>
-</tr>
-<tr>
-<td>–with-ld-opt=parameters</td>
-<td style="text-align:center">设置附加的参数，连接系统库</td>
-</tr>
-</tbody>
-</table>
-<h4 id="三、nginx-conf基础配置语法"><a href="#三、nginx-conf基础配置语法" class="headerlink" title="三、nginx.conf基础配置语法"></a>三、nginx.conf基础配置语法</h4><blockquote>
-<p>nginx.conf基础配置语法<br>nginx.conf 作为主配置文件<br>include /etc/nginx/conf.d/*.conf 读到这会把该目录的.conf也读进来</p>
-<ul>
-<li><strong>全局性的和服务级别的</strong><br><code>user</code>设置使用用户<br><code>worker_processes</code>进行增大并发连接数的处理(最好设置跟cpu保持一致)<br><code>error_log</code>nginx的错误日志<br><code>pid</code>nginx服务启动时候pid </li>
-<li>event对事件的模块<br><code>worker_connections</code>一个进程允许处理的最大连接数<br><code>use</code>定义使用的内核模型</li>
-</ul>
+                <h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><blockquote>
+<p>Nginx对静态资源的压缩就是在服务端进行压缩传输到浏览器端进行解压，这个压缩和解压的过程中减少中间网络传输的消耗。就是减少服务端带宽资源的消耗还有减少传输的文件大小从而实现传输的实时性。<br>对于压缩我们可以启用Nginx的gizp压缩设置。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">http&#123;</div><div class="line">  server&#123;</div><div class="line">  listen 80;  //端口</div><div class="line">  server_name localhost; //域名</div><div class="line">      location /  //子目录和当前目录</div><div class="line">      &#123;</div><div class="line">                  root   /usr/share/nginx/html;      //指定目录</div><div class="line">                  index   index.html     index.htm   //默认访问页面</div><div class="line">      &#125;</div><div class="line">      error_page    500 502 503 504 /50.html</div><div class="line">      location = /50x.html&#123;</div><div class="line">        root /usr/share/nginx/html;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  server&#123;</div><div class="line">  ... ...</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>修改配置文件后需要重启nginx<br><br>重启nginx(进程停掉,重新启动一次)<br><code>systemctl restart nginx.service</code><br>不关闭服务柔和地重启(重新读取一次配置文件)<br><code>systemctl reload nginx.service</code></p>
-</blockquote>
+<hr>
+<h4 id="二、gizp配置"><a href="#二、gizp配置" class="headerlink" title="二、gizp配置"></a>二、gizp配置</h4><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#开启gzip</span></div><div class="line">gzip on; </div><div class="line"><span class="comment"># gzip 压缩级别</span></div><div class="line">gzip_comp_level <span class="number">2</span>;</div><div class="line"><span class="comment"># 启用gzip压缩的最小文件</span></div><div class="line">gzip_min_length <span class="number">1</span>k;</div><div class="line"><span class="comment"># 进行压缩的文件类型。</span></div><div class="line">gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</div></pre></td></tr></table></figure>
+<p>更多设置参考:<a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip" target="_blank" rel="external">Nginx文档gzip相关参数设置</a></p>
+<h4 id="三、演示"><a href="#三、演示" class="headerlink" title="三、演示"></a>三、演示</h4><p>首先我在服务器准备好了演示使用的图片demo.jpg<br><img src="http://upload-images.jianshu.io/upload_images/2660278-c60743eca4516080.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>接下来我们前往/etc/nginx/conf.d/新建test.conf进行设置<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       <span class="number">80</span>;</div><div class="line">    server_name  localhost;</div><div class="line"></div><div class="line">    sendfile on;</div><div class="line">    <span class="comment">#charset koi8-r;</span></div><div class="line">    access_log  /var/log/nginx/host.access.log  main;</div><div class="line"></div><div class="line">    location ~ .*\.(jpg|gif|png)$ &#123;</div><div class="line">        gzip off;</div><div class="line">        gzip_http_version <span class="number">1.1</span>;</div><div class="line">        gzip_comp_level <span class="number">2</span>;</div><div class="line">        gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</div><div class="line">        root /opt/app/demo/images;</div><div class="line">    &#125;</div><div class="line"><span class="comment">#error_page  404              /404.html;</span></div><div class="line"></div><div class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    error_page   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> <span class="number">404</span> /<span class="number">50</span>x.html;</div><div class="line">    location = /<span class="number">50</span>x.html &#123;</div><div class="line">        root   /usr/share/nginx/html;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ \.php$ &#123;</span></div><div class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line"></div><div class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ \.php$ &#123;</span></div><div class="line">    <span class="comment">#    root           html;</span></div><div class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></div><div class="line">    <span class="comment">#    fastcgi_index  index.php;</span></div><div class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span></div><div class="line">    <span class="comment">#    include        fastcgi_params;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line"></div><div class="line">    <span class="comment"># deny access to .htaccess files, if Apache's document root</span></div><div class="line">    <span class="comment"># concurs with nginx's one</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ /\.ht &#123;</span></div><div class="line">    <span class="comment">#    deny  all;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时设置gzip off 我们访问该图片:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-44f05cf663e5721f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>该图片资源大小为749KB<br>接下来我们开启gzip<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">location ~ .*\.(jpg|gif|png)$ &#123;</div><div class="line">        gzip on;</div><div class="line">        gzip_http_version <span class="number">1.1</span>;</div><div class="line">        gzip_comp_level <span class="number">2</span>;</div><div class="line">        gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</div><div class="line">        root /opt/app/demo/images;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>reload nginx:<br><code>nginx -s reload -c /etc/nginx/nginx.conf</code><br>再次访问该图片:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-f8609f8ebf97e3da.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>现在该图片传输资源大小被压缩为747KB<br>可以看到确实有压缩了但是似乎压缩的比并不理想<br>事实上gzip对文本的压缩更为显著,对图片的压缩比率并不是很理想<br>我们同样对文本文件压缩设置来测试一下压缩的比例:<br>我们在text.conf中增加这一段<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">location ~ .*\.(txt|xml)$ &#123;</div><div class="line">        gzip off;</div><div class="line">        gzip_http_version <span class="number">1.1</span>;</div><div class="line">        gzip_comp_level <span class="number">2</span>;</div><div class="line">        gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</div><div class="line">        root /opt/app/demo/doc;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>然后在/opt/app/demo/doc 中准备好文本文件<br>reload Nginx后在gzip off时访问该文本文件:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-aca5cb8e8d9b1734.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>此时传输资源大小为1.3MB<br>我们将gzip打开后reload Nginx再次访问该文本:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-c3c81155879eb9bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>可见此时传输资源大小为12.4KB<br>说明gzip对文本的压缩是非常理想的<br>对比两次结果从Time第一次为9.09s到第二次50ms可以看出Nginx开启gzip压缩大大提高了网页响应的速度。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/04/24/Nginx开启gzip压缩演示/" data-toggle="tooltip" data-placement="top"
-                           title="Nginx开启gzip压缩演示">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/11/09/nginx基础笔记-一-nginx快速安装/" data-toggle="tooltip" data-placement="top"
-                           title="nginx快速安装">Next Post &rarr;</a>
+                        <a href="/2017/11/10/nginx的目录和配置语法/" data-toggle="tooltip" data-placement="top"
+                           title="nginx的目录和配置语法">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -304,7 +206,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、nginx的各种安装目录"><span class="toc-text">一、nginx的各种安装目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、nginx的编译配置参数"><span class="toc-text">二、nginx的编译配置参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、nginx-conf基础配置语法"><span class="toc-text">三、nginx.conf基础配置语法</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、介绍"><span class="toc-text">一、介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、gizp配置"><span class="toc-text">二、gizp配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、演示"><span class="toc-text">三、演示</span></a></li></ol>
                 </div>
             </div>
         </div>
