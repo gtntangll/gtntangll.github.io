@@ -174,7 +174,7 @@
                 <h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><p>1.负载均衡</p>
 <p>单位时间内一台服务器的访问量过大将会使服务器的压力变大，压力难以承受时甚至会导致服务器崩溃。<br>负载均衡服务就是为了避免这样的事情发生。<br>负载均衡就是通过建立一个服务器群，当用户访问资源时先通过一个中间服务器将这次的访问引到服务器群里压力较小服务器去访问。<br>使用这样的方式就可以平衡了服务器的压力,充分发挥了服务器群的性能。</p>
 <p>2.Nginx负载均衡</p>
-<p>负载均衡可以通过负载均衡网络硬件设备和web服务器软件来实现，使用硬件设备的成本比较高,所以我们一般首选web服务器软件来实现负载均衡服务。<br>Nginx便可以实现作为负载均衡的服务。此文介绍Nginx作为负载均衡服务的策略和配置方法，简单演示部分配置的场景。<br>Nginx作为负载均衡服务是通过Nginx反向代理配置来实现的<br>可以提前了解一下相关资料:<a href="https://www.jianshu.com/p/ae76c223c6ef" target="_blank" rel="external">Nginx正向代理与反向代理</a></p>
+<p>负载均衡可以通过负载均衡网络硬件设备和web服务器软件来实现，使用硬件设备的成本比较高,所以我们一般首选web服务器软件来实现负载均衡服务。<br>Nginx便可以实现作为负载均衡的服务。此文介绍Nginx作为负载均衡服务的策略和配置方法，简单演示部分配置的场景。<br>Nginx作为负载均衡服务是通过Nginx反向代理配置来实现的<br>可以提前了解一下上一篇博客:<a href="https://www.jianshu.com/p/ae76c223c6ef" target="_blank" rel="external">Nginx正向代理与反向代理</a></p>
 <h4 id="二、Nginx负载均衡服务配置语法"><a href="#二、Nginx负载均衡服务配置语法" class="headerlink" title="二、Nginx负载均衡服务配置语法"></a>二、Nginx负载均衡服务配置语法</h4><p>1.upstream</p>
 <p>Nginx负载均衡服务需要通过Nginx的upstream模块来实现</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream upstreamname&#123;</div><div class="line">  server1...</div><div class="line">  server2...</div><div class="line">  server3...</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
