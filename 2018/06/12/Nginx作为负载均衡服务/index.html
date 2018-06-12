@@ -178,7 +178,8 @@
 <h4 id="二、Nginx负载均衡服务配置语法"><a href="#二、Nginx负载均衡服务配置语法" class="headerlink" title="二、Nginx负载均衡服务配置语法"></a>二、Nginx负载均衡服务配置语法</h4><p>1.upstream</p>
 <p>Nginx负载均衡服务需要通过Nginx的upstream模块来实现</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream upstreamname&#123;</div><div class="line">  server1...</div><div class="line">  server2...</div><div class="line">  server3...</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>需要注意的是upstream是要写在http节点下<br>2.配置反向代理</p>
+<p>需要注意的是upstream是要写在http节点下</p>
+<p>2.配置反向代理</p>
 <p>在server节点下location里通过proxy_pass配置反向代理</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">server &#123;</div><div class="line">    location / &#123; </div><div class="line">        proxy_pass: http://upstreamname; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>3.简单配置场景演示</p>
