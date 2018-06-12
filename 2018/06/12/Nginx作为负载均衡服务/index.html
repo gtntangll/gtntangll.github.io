@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="唐龙隆个人博客">
+    <meta name="keyword" content="唐龙隆,前端,js,jquery,javascript,html5,python,开发者,程序猿,程序员,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="tangll" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Nginx作为负载均衡服务｜唐龙隆个人博客
+        
+    </title>
+
+    <link rel="canonical" href="https://gtntangll.github.io/2018/06/12/Nginx作为负载均衡服务/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://oy29d7pea.bkt.clouddn.com/508ca04ada81d.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    tangll
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://oy29d7pea.bkt.clouddn.com/201510141516171602_meitu_1.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://oy29d7pea.bkt.clouddn.com/201510141516171602_meitu_1.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Nginx作为负载均衡服务</h1>
+                    
+                    <span class="meta">
+                         作者 tangll
+                        <span>
+                          日期 2018-06-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#技术分享"
+                           title="技术分享">技术分享</a>
+                        
+                        <a class="tag" href="/tags/#nginx"
+                           title="nginx">nginx</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Nginx作为负载均衡服务
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><p>######负载均衡<br>单位时间内一台服务器的访问量过大将会使服务器的压力变大，压力难以承受时甚至会导致服务器崩溃。<br>负载均衡服务就是为了避免这样的事情发生。<br>负载均衡就是通过建立一个服务器群，当用户访问资源时先通过一个中间服务器将这次的访问引到服务器群里压力较小服务器去访问。<br>使用这样的方式就可以平衡了服务器的压力,充分发挥了服务器群的性能。</p>
+<p>######Nginx负载均衡<br>负载均衡可以通过负载均衡网络硬件设备和web服务器软件来实现，使用硬件设备的成本比较高,所以我们一般首选web服务器软件来实现负载均衡服务。<br>Nginx便可以实现作为负载均衡的服务。此文介绍Nginx作为负载均衡服务的策略和配置方法，简单演示部分配置的场景。<br>Nginx作为负载均衡服务是通过Nginx反向代理配置来实现的</p>
+<h2 id="可以提前了解一下相关资料-Nginx正向代理与反向代理"><a href="#可以提前了解一下相关资料-Nginx正向代理与反向代理" class="headerlink" title="可以提前了解一下相关资料:Nginx正向代理与反向代理"></a>可以提前了解一下相关资料:<a href="https://www.jianshu.com/p/ae76c223c6ef" target="_blank" rel="external">Nginx正向代理与反向代理</a></h2><h4 id="二、Nginx负载均衡服务配置语法"><a href="#二、Nginx负载均衡服务配置语法" class="headerlink" title="二、Nginx负载均衡服务配置语法"></a>二、Nginx负载均衡服务配置语法</h4><p>1、upstream<br>Nginx负载均衡服务需要通过Nginx的upstream模块来实现<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream upstreamname&#123;</div><div class="line">  server1...</div><div class="line">  server2...</div><div class="line">  server3...</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的是upstream是要写在http节点下<br>2、配置反向代理<br>在server节点下location里通过proxy_pass配置反向代理<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">server &#123;</div><div class="line">    location / &#123; </div><div class="line">        proxy_pass: http://upstreamname; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2、简单配置场景演示<br>接下来登录到服务器进行简单的配置演示。<br>我准备了两台服务器A和B<br>我将使用A服务器作为后端服务器的演示,B作为负载均衡中间服务器。<br>在A服务器/etc/nginx/conf.d下我新建了3个server对应监听8001,8002,8003端口:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       <span class="number">8001</span>;</div><div class="line">    server_name  localhost;</div><div class="line">    location / &#123;</div><div class="line">        root   /opt/app/code1;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen       <span class="number">8002</span>;</div><div class="line">    server_name  localhost;</div><div class="line">    location / &#123;</div><div class="line">        root   /opt/app/code2;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen       <span class="number">8003</span>;</div><div class="line">    server_name  localhost;</div><div class="line">    location / &#123;</div><div class="line">        root   /opt/app/code3;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>并在/opt/app/下新建了3个不同样式的页面code1,code2,code3<br>code1<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>server1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">"background-color:blue;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>this is server1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>code2<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>server1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">"background-color:green;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>this is server2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>code3<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>server1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">"background-color:red;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>this is server3<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>配置到这此时我访问三个端口的服务将对应不同的页面:<br><a href="http://112.74.33.216:8001" target="_blank" rel="external">server1:http://112.74.33.216:8001</a> this is server1<br><a href="http://112.74.33.216:8002" target="_blank" rel="external">server2:http://112.74.33.216:8002</a> this is server2<br><a href="http://112.74.33.216:8003" target="_blank" rel="external">server3:http://112.74.33.216:8003</a> this is server3<br>准备好了3个服务,我们开始配置负载均衡,用一个地址代理到3个不同的服务上。<br>登录到B服务器/etc/nginx/conf.d下新建upstream.conf配置如下:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#配置upstream</span></div><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div><div class="line">server &#123;</div><div class="line">    listen       <span class="number">80</span>;</div><div class="line">    server_name  localhost;</div><div class="line">    resolver  <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        <span class="comment">#设置代理转发</span></div><div class="line">        proxy_pass http://tangll;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>配置好了之后reload nginx<br>我们访问B服务器地址:<a href="http://47.92.83.44/" target="_blank" rel="external">http://47.92.83.44</a><br>结果如下:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-73836e3ebda59ade.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="server1"><br>刷新后:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-59d2f2f02e666ec9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="server2"><br>再次刷新:<br><img src="http://upload-images.jianshu.io/upload_images/2660278-1385d57b54898ca8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="server3"><br>反复刷新后发现访问此同样的地址访问的服务已经可以引入不同的服务器。<br>以上便完成了Nginx负载均衡配置。<br>由上我们还会发现每次的刷新都会按顺序访问server1,server2,server3的服务资源。其实这是Nginx作为负载均衡服务的默认调度策略:轮询。<br>此策略下访问的请求将会按时间顺序逐一分配到不同的后端服务器。</p>
+<p>接下来我们将介绍Ngxin作为负载均衡服务的不同调度策略。</p>
+<hr>
+<h4 id="三、Nginx作为负载均衡服务的几种调度策略"><a href="#三、Nginx作为负载均衡服务的几种调度策略" class="headerlink" title="三、Nginx作为负载均衡服务的几种调度策略"></a>三、Nginx作为负载均衡服务的几种调度策略</h4><p>######1、轮询</p>
+<p> 按时间顺序注意分配到不同的后端服务器<br> 轮询是作为Nginx负载均衡的默认调度策略<br> 上文中已经给出演示</p>
+<p>######2、加权轮询</p>
+<p>weight值越大,分配到的访问几率越高<br>加权轮询策略既是在轮询的基础上指定轮询的几率<br>weight越大,访问比率越大<br>例如上文中的轮询策略修改如下:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> weight=<span class="number">1</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span> weight=<span class="number">2</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span> weight=<span class="number">7</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>则server1,server2,server3被访问的概率分别为10%,20%,70%</p>
+<p>######3、 ip_hash</p>
+<p>每个请求按访问IP的hash结果分配,这样来自同一个IP的固定访问一个后端服务器</p>
+<p>轮询策略会有这样一个弊端,每次访问的服务可能都是不一样的,那么导致一些场景下会出现问题。像登录的cookie信息验证场景下就会出现问题,所以我们可以指定同一个ip固定访问一个后端服务器来避免这样的问题。<br>ip_hash的配置如下:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    ip_hash;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>######4、 url_hash </p>
+<p>按照访问的URL的hash结果来分配请求,使每个URL定向到同一个后端服务器</p>
+<p>在ip_hash策略下还会有一些弊端,例如在服务器缓存的场景下在服务器群中可能会对应不同的服务器缓存了不同的内容。所以我们需要让相同的url下使他去访问同一个服务器的内容。<br>url_hash配置如下:<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    hash $request_uri;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>######5、least_conn </p>
+<p>最少连接数,哪个机器连接数少就分发给它</p>
+<p>######6、fair<br>根据服务器的响应时间来分配请求，响应时间短的优先分配，即负载压力小的优先会分配。</p>
+<p>######7、hash关键数值</p>
+<p>可以利用hash自定义的KEY来进行hash调度<br>例如可以通过url中特定的KEY来调度指定的服务器</p>
+<p>####四、总结和补充</p>
+<p>######总结:<br>Nginx使用upstream和反向代理原理可以实现负载均衡服务,使服务器群充分发挥性能,避免单位时间内单个服务器由于访问量过大而崩溃的问题。<br>使用不同的调度策略可为不同的场景下搭建负载均衡服务。</p>
+<p>######补充:upstream模块下的server参数</p>
+<ul>
+<li><p>weight<br>默认为1,在加权轮询策略下用到:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> weight=<span class="number">1</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span> weight=<span class="number">2</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span> weight=<span class="number">7</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>down 当前的server暂时不参与负载均衡</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> down;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>标识server1为无效状态,不会分配请求给他</p>
+<ul>
+<li>backup 预留的备份服务器<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> backup;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>标识server1作为备份服务器<br>在请求server2,和server3都无法访问时才去访问server1</p>
+<ul>
+<li>max_fails 允许请求失败的次数</li>
+<li>fail_timeout 经过max_fails失败后,服务暂停的时间<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">10</span>s;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在server1请求失败达到2次的10秒后将不会再分配请求给它</p>
+<ul>
+<li>max_conns 限制最大的接受连接数<figure class="highlight python"><table><tr><td class="code"><pre><div class="line">upstream tangll&#123;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8001</span> max_conns=<span class="number">100</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8002</span>;</div><div class="line">    server <span class="number">112.74</span><span class="number">.33</span><span class="number">.216</span>:<span class="number">8003</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最多给server1分配100个请求,超过100个请求将不会再请求它。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/Nginx正向代理与反向代理/" data-toggle="tooltip" data-placement="top"
+                           title="Nginx正向代理与反向代理">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、介绍"><span class="toc-text">一、介绍</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可以提前了解一下相关资料-Nginx正向代理与反向代理"><span class="toc-text">可以提前了解一下相关资料:Nginx正向代理与反向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#二、Nginx负载均衡服务配置语法"><span class="toc-text">二、Nginx负载均衡服务配置语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、Nginx作为负载均衡服务的几种调度策略"><span class="toc-text">三、Nginx作为负载均衡服务的几种调度策略</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#技术分享"
+                           title="技术分享">技术分享</a>
+                        
+                        <a class="tag" href="/tags/#nginx"
+                           title="nginx">nginx</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/shu-xin-lao-si-ji">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/gtntangll">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; tangll 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>,
+                    Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://gtntangll.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://oy29d7pea.bkt.clouddn.com/3A50005208C70D24E8028F940E036A91.jpg">
+</body>
+
+</html>
